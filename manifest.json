@@ -7,7 +7,8 @@
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "name": "JARVIS",
@@ -15,5 +16,6 @@
   "scope": "/JARVIS_2.0/",
   "short_name": "JARVIS",
   "start_url": "/JARVIS_2.0/",
-  "theme_color": "#00ffee"
+  "theme_color": "#00ffee",
+  "categories": ["utilities", "productivity"]
 }
