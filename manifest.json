@@ -1,11 +1,12 @@
 {
   "background_color": "#000000",
+  "description": "JARVIS Voice Assistant web app",
   "dir": "ltr",
   "display": "standalone",
   "name": "JARVIS",
   "orientation": "any",
-  "scope": "/",
+  "scope": "/JARVIS_2.0/",
   "short_name": "JARVIS",
-  "start_url": "/",
+  "start_url": "/JARVIS_2.0/",
   "theme_color": "#00ffee"
 }
