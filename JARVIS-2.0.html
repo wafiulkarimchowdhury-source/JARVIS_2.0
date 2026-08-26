@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JARVIS Voice Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    @keyframes glowPulse {
+      0% {
+        border-color: rgba(0, 240, 255, 0.3);
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+      }
+      50% {
+        border-color: rgba(0, 240, 255, 0.9);
+        box-shadow: 0 0 60px rgba(0, 240, 255, 0.6);
+      }
+      100% {
+        border-color: rgba(0, 240, 255, 0.3);
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+      }
+    }
+
+    body {
+      background-color: #04090e;
+      background-image: radial-gradient(circle at center, rgba(0, 240, 255, 0.15) 0%, rgba(2, 5, 9, 0.95) 70%);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Rajdhani', sans-serif;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    .mobile-screen {
+      width: 100%;
+      max-width: 520px;
+      min-height: 820px;
+      background-color: #060a0f;
+      border: 1.5px solid rgba(0, 240, 255, 0.3);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      animation: glowPulse 3.5s infinite ease-in-out;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.25);
+      margin-bottom: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: #00f0ff;
+      margin: 0;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      border: 2px solid #00f0ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: #00f0ff;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+    }
+
+    .clock {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #e0f8ff;
+      letter-spacing: 1px;
+    }
+
+    .response-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .response-label {
+      font-size: 1.1rem;
+      color: #a0c0cf;
+      letter-spacing: 0.5px;
+    }
+
+    .response-box {
+      width: 100%;
+      min-height: 260px;
+      flex-grow: 1;
+      background-color: rgba(3, 14, 22, 0.6);
+      border: 1.5px solid rgba(0, 240, 255, 0.4);
+      border-radius: 14px;
+      padding: 20px;
+      box-sizing: border-box;
+      color: #00f0ff;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      overflow-y: auto;
+      box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.08);
+      white-space: pre-wrap;
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      border-radius: 14px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-start {
+      flex: 1;
+      height: 54px;
+      background-color: #00f0ff;
+      border: 1.5px solid #00f0ff;
+      color: #04090e;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+      gap: 8px;
+    }
+
+    .btn-start:hover {
+      background-color: #5dffff;
+      box-shadow: 0 0 28px rgba(0, 240, 255, 0.9);
+    }
+
+    .btn-image {
+      flex: 1;
+      height: 54px;
+      background-color: transparent;
+      border: 1.5px solid #00f0ff;
+      color: #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+      gap: 8px;
+    }
+
+    .btn-image:hover {
+      background-color: rgba(0, 240, 255, 0.1);
+      box-shadow: 0 0 22px rgba(0, 240, 255, 0.4);
+    }
+
+    .btn-stop {
+      width: 100%;
+      height: 48px;
+      background-color: transparent;
+      border: 1px solid rgba(255, 50, 50, 0.6);
+      color: #ff5555;
+      margin-bottom: 15px;
+    }
+
+    .btn-stop:hover {
+      background-color: rgba(255, 50, 50, 0.15);
+    }
+
+    .voice-controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .btn-speak {
+      flex: 1;
+      height: 58px;
+      background-color: transparent;
+      border: 1.5px solid #00f0ff;
+      color: #00f0ff;
+      font-size: 1.1rem;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+
+    .btn-mic {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background-color: #00f0ff;
+      border: 1.5px solid #00f0ff;
+      color: #04090e;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+      touch-action: none;
+    }
+
+    .btn-mic:active, .btn-mic.recording {
+      background-color: #ff3366;
+      border-color: #ff3366;
+      box-shadow: 0 0 30px rgba(255, 51, 102, 0.9);
+      color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .credit {
+      font-size: 0.75rem;
+      color: rgba(0, 240, 255, 0.6);
+      letter-spacing: 1.2px;
+      text-align: center;
+      text-transform: uppercase;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-screen">
+    <div class="header">
+      <div class="brand">
+        <h1>JARVIS</h1>
+        <div class="logo-icon">J</div>
+      </div>
+      <div class="clock" id="clock">--:-- --</div>
+    </div>
+
+    <div class="response-container">
+      <div class="response-label">AI Response</div>
+      <div class="response-box" id="response-box">System online. Ready for your command, Sir.</div>
+    </div>
+
+    <div class="top-controls">
+      <button class="btn-start" onclick="handleStart()">CHAT ►</button>
+      <button class="btn-image" onclick="handleImageGenerate()">CREATE IMG 🎨</button>
+    </div>
+
+    <button class="btn-stop" onclick="handleStop()">STOP ■</button>
+
+    <div class="voice-controls">
+      <button class="btn-speak">HOLD MIC TO SPEAK</button>
+      <button class="btn-mic" id="micBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="credit">AI Tool made by Wafi ul Karim Chowdhury</div>
+  </div>
+
+  <script>
+    const API_KEY = "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";
+    let defaultLang = 'en-US'; 
+    let transcript = "";
+    let isListening = false;
+    let currentUtterance = null;
+
+    let chatHistory = [
+      { role: "system", content: "You are JARVIS, an advanced AI system created exclusively by Wafi ul Karim Chowdhury. Always address the user as 'Sir'. If the user explicitly asks you to speak in Bangla, respond in Bangla for that turn only. Otherwise, your default language for both thinking and responding is English. Keep text responses under 3 sentences. STRICT INSTRUCTION: DO NOT use LaTeX formatting or math symbols like $, \\sqrt, or \\sin. Use clean, plain text formatting only." }
+    ];
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      document.getElementById('clock').innerText = `${hours}:${minutes} ${ampm}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = defaultLang; 
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onresult = (event) => {
+        let currentTranscript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          currentTranscript += event.results[i][0].transcript;
+        }
+        transcript = currentTranscript;
+        updateBox(`Listening: "${transcript}"`);
+      };
+
+      recognition.onerror = (event) => {
+        updateBox(`Speech Error: ${event.error}`);
+      };
+    }
+
+    const micBtn = document.getElementById('micBtn');
+
+    function startHoldingVoiceInput(e) {
+      if (e) e.preventDefault();
+      if (!recognition) {
+        updateBox("Speech recognition is not supported in this browser.");
+        return;
+      }
+      if (isListening) return;
+
+      isListening = true;
+      transcript = "";
+      micBtn.classList.add('recording');
+      updateBox("Start speaking (Hold button down)...");
+      try {
+        recognition.start();
+      } catch (err) {}
+    }
+
+    function stopHoldingVoiceInput(e) {
+      if (e) e.preventDefault();
+      if (!isListening) return;
+
+      isListening = false;
+      micBtn.classList.remove('recording');
+      
+      if (recognition) {
+        recognition.stop();
+      }
+
+      setTimeout(() => {
+        if (transcript.trim().length > 0) {
+          processQuery(transcript);
+        } else {
+          updateBox("No voice detected. Please try again.");
+        }
+      }, 300);
+    }
+
+    micBtn.addEventListener('mousedown', startHoldingVoiceInput);
+    micBtn.addEventListener('mouseup', stopHoldingVoiceInput);
+    micBtn.addEventListener('mouseleave', stopHoldingVoiceInput);
+
+    micBtn.addEventListener('touchstart', startHoldingVoiceInput, { passive: false });
+    micBtn.addEventListener('touchend', stopHoldingVoiceInput, { passive: false });
+    micBtn.addEventListener('touchcancel', stopHoldingVoiceInput, { passive: false });
+
+    function handleStart() {
+      const userPrompt = prompt("Enter your text prompt for JARVIS:");
+      if (userPrompt) processQuery(userPrompt);
+    }
+
+    function handleStop() {
+      if (recognition) recognition.stop();
+      if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+      updateBox("Operation halted, Sir.");
+    }
+
+    async function processQuery(query) {
+      updateBox(`Query: "${query}"\n\nProcessing response...`);
+      const reply = await askGemini(query);
+      updateBox(reply);
+      speakOutLoud(reply);
+    }
+
+    async function askGemini(promptText, retries = 2) {
+      const url = "https://openrouter.ai/api/v1/chat/completions";
+
+      chatHistory.push({ role: "user", content: promptText });
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: "deepseek/deepseek-chat",
+            messages: chatHistory
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.status === 429 && retries > 0) {
+          const waitTimeSec = 10;
+          updateBox(`Rate limit active, Sir. Cooling down for ${waitTimeSec} seconds... System will retry automatically.`);
+          await new Promise(resolve => setTimeout(resolve, waitTimeSec * 1000));
+          return askGemini(promptText, retries - 1);
+        }
+
+        if (!response.ok) return `API Error (${response.status}): ${data.error?.message || 'Request failed'}`;
+
+        const assistantReply = data.choices[0].message.content;
+        chatHistory.push({ role: "assistant", content: assistantReply });
+
+        return assistantReply;
+      } catch (err) {
+        return "System error: Failed to connect to AI server.";
+      }
+    }
+
+    async function handleImageGenerate() {
+      const imagePrompt = prompt("Describe the image you want JARVIS to generate:");
+      if (!imagePrompt) return;
+
+      updateBox(`Generating visual assets for: "${imagePrompt}"...\n\nPlease wait, Sir.`);
+      speakOutLoud("Generating visual assets now, Sir.");
+
+      const url = "https://openrouter.ai/api/v1/chat/completions";
+      
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: "deepseek/deepseek-chat",
+            messages: [{ role: "user", content: imagePrompt }]
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.status === 429) {
+          updateBox("API rate limit reached. Please wait before attempting another request, Sir.");
+          return;
+        }
+
+        if (!response.ok) {
+          updateBox(`API Error (${response.status}): ${data.error?.message || 'Generation failed'}`);
+          return;
+        }
+
+        const replyText = data.choices[0].message.content;
+        updateBox(replyText);
+        speakOutLoud("Task complete, Sir.");
+      } catch (err) {
+        updateBox("Failed to process image prompt due to network error.");
+      }
+    }
+
+    function cleanLatex(text) {
+      return text
+        .replace(/\\sqrt\{([^}]+)\}/g, '√($1)')
+        .replace(/\\(sin|cos|tan|sec|csc|cot|theta)/g, '$1')
+        .replace(/\$/g, '');
+    }
+
+    function updateBox(text) {
+      document.getElementById('response-box').innerText = cleanLatex(text);
+    }
+
+    function speakOutLoud(text) {
+      if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      
+      const containsBangla = /[\u0980-\u09FF]/.test(text);
+      currentUtterance.lang = containsBangla ? 'bn-BD' : 'en-US';
+      
+      currentUtterance.rate = 0.95;
+      currentUtterance.pitch = 0.9;
+      window.speechSynthesis.speak(currentUtterance);
+    }
+  </script>
+</body>
+</html>
