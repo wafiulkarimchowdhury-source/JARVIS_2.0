@@ -1,0 +1,11 @@
+{
+  "background_color": "#000000",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "JARVIS",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "JARVIS",
+  "start_url": "/",
+  "theme_color": "#00ffee"
+}
