@@ -3,6 +3,18 @@
   "description": "JARVIS Voice Assistant web app",
   "dir": "ltr",
   "display": "standalone",
+  "icons": [
+    {
+      "src": "/JARVIS_2.0/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/JARVIS_2.0/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "name": "JARVIS",
   "orientation": "any",
   "scope": "/JARVIS_2.0/",
