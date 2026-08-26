@@ -5,8 +5,8 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "/JARVIS_2.0/icon-512.png",
-      "sizes": "192x192 512x512",
+      "src": "icon-512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
